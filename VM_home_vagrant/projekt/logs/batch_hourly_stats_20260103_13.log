@@ -1,0 +1,5 @@
+2026-01-03 14:05:06,861 INFO Starting job for: 2026-01-03 13:00
+2026-01-03 14:05:06,861 INFO Initializing Spark...
+2026-01-03 14:05:13,083 INFO Spark has been initialized succesfully
+2026-01-03 14:05:21,460 INFO Data read. Count: 0
+2026-01-03 14:05:21,718 WARNING No data found for given period. Exiting.

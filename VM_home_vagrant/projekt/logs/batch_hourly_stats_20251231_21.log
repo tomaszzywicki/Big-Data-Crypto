@@ -1,0 +1,5 @@
+2025-12-31 22:05:04,148 INFO Starting job for: 2025-12-31 21:00
+2025-12-31 22:05:04,148 INFO Initializing Spark...
+2025-12-31 22:05:08,265 INFO Spark has been initialized succesfully
+2025-12-31 22:05:17,527 INFO Data read. Count: 2160
+2025-12-31 22:05:28,412 INFO Batch view successfully saved to MongoDB.
