@@ -27,9 +27,16 @@ def backfill_binance_history(symbol="BTCUSDT"):
         for record in data:
             # Convert Binance timestamp (ms) to Hive-friendly format
             dt = datetime.fromtimestamp(record['timestamp'] / 1000.0)
+
+            if symbol == "BTCUSDT":
+                crypto_name = "bitcoin"
+            elif symbol == "ETHUSDT":
+                crypto_name = "ethereum"
+            else:
+                crypto_name = symbol.replace("USDT", "").lower()
             
             payload = {
-                "coin_id": symbol.replace("USDT", "").lower(),
+                "currency": crypto_name,
                 "timestamp": dt.strftime("%Y-%m-%d %H:%M:%S"),
                 "long_short_ratio": float(record['longShortRatio']),
                 "long_account_pct": float(record['longAccount']),
