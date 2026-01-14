@@ -7,7 +7,7 @@ from confluent_kafka import Producer
 # Kafka Configuration
 producer = Producer({'bootstrap.servers': 'localhost:9092'})
 KAFKA_TOPIC = 'crypto-trends'
-SYMBOLS = ["BTCUSDT", "ETHUSDT"]
+SYMBOLS = ["BTCUSDT", "ETHUSDT", "DOGEUSDT"]
 
 def fetch_latest_sentiment(symbol):
     """Fetches the most recent Long/Short ratio data point."""
@@ -25,6 +25,8 @@ def fetch_latest_sentiment(symbol):
                 crypto_name = "bitcoin"
             elif symbol == "ETHUSDT":
                 crypto_name = "ethereum"
+            elif symbol == "DOGEUSDT":
+                crypto_name = "dogecoin"
             else:
                 crypto_name = symbol.replace("USDT", "").lower()
 
