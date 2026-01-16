@@ -1,5 +1,5 @@
 from multiprocessing import Process
-from src.scrapers.data_collector import CoinMarketCapDataCollector
+from src.ingestion.scrapers.data_collector import CoinMarketCapDataCollector
 
 
 def run_collector(crypto_name: str, url: str, collect_type: str):
@@ -18,8 +18,8 @@ def run_collector(crypto_name: str, url: str, collect_type: str):
 def main():
     cryptos = {
         "bitcoin": "https://coinmarketcap.com/currencies/bitcoin/",
-        # "ethereum": "https://coinmarketcap.com/currencies/ethereum/",
-        # "xrp": "https://coinmarketcap.com/currencies/xrp/",
+        "ethereum": "https://coinmarketcap.com/currencies/ethereum/",
+        "dogecoin": "https://coinmarketcap.com/currencies/dogecoin/",
     }
 
     print("Starting cryptocurrency data collectors...")
@@ -27,17 +27,17 @@ def main():
     processes = []
 
     for name, url in cryptos.items():
-        # p1 = Process(target=run_collector, args=(name, url, "prices"))
-        # p1.start()
-        # processes.append(p1)
+        p1 = Process(target=run_collector, args=(name, url, "prices"))
+        p1.start()
+        processes.append(p1)
 
         # p2 = Process(target=run_collector, args=(name, url, "posts"))
         # p2.start()
         # processes.append(p2)
 
-        p3 = Process(target=run_collector, args=(name, url, "additional_info"))
-        p3.start()
-        processes.append(p3)
+        # p3 = Process(target=run_collector, args=(name, url, "additional_info"))
+        # p3.start()
+        # processes.append(p3)
 
     for p in processes:
         p.join()

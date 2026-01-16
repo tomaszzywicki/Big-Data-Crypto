@@ -43,7 +43,7 @@ def main():
     alerts = live_analysis.withColumn("alert_type", 
         when(col("live_sentiment") > 2.5, "🔥 EXTREME LONG SENTIMENT")
         .when(col("live_sentiment") < 0.6, "🧊 EXTREME SHORT SENTIMENT")
-        .when(col("vol_ratio") > 0.05, "⚡ HIGH VOLATILITY SPIKE")
+        .when(col("vol_ratio") > 0.02, "⚡ HIGH VOLATILITY SPIKE")
         .otherwise("Normal")
     )
 

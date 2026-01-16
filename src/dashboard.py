@@ -24,14 +24,14 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🏹 Crypto Analysis Hub (Batch & Speed Layer)")
+st.title("Crypto Analysis Hub (Batch & Speed Layer)")
 
 # Main Navigation using Tabs
-tab1, tab2 = st.tabs(["🏛️ Market Overview (Batch)", "⚡ Live Pulse (Speed)"])
+tab1, tab2 = st.tabs(["Market Overview (Batch)", "Live Pulse (Speed)"])
 
 # --- TAB 1: BATCH LAYER (HISTORICAL DATA) ---
 with tab1:
-    st.header("📊 Historical Trend Analysis")
+    st.header("Historical Trend Analysis")
     
     # Retrieve batch processing results from MongoDB
     batch_data = list(db["batch_stats"].find())
@@ -42,7 +42,7 @@ with tab1:
         unique_batch_coins = sorted(df['currency'].unique())
 
         # --- SECTION 1: PRICE OVERVIEW WITH MIN/MAX BRACKETS ---
-        st.subheader("📈 Price Overview (Average + Min/Max Brackets)")
+        st.subheader("Price Overview (Average + Min/Max Brackets)")
         
         main_coin = st.selectbox("Select currency for primary analysis:", unique_batch_coins, key="main_price_select")
         mdf = df[df['currency'] == main_coin].sort_values('dt')
@@ -88,7 +88,7 @@ with tab1:
         st.divider()
 
         # --- SECTION 2: SENTIMENT COMPARISON ---
-        st.subheader("📊 Sentiment Strength Comparison (Long/Short Ratio)")
+        st.subheader("Sentiment Strength Comparison (Long/Short Ratio)")
         selected_batch_coins = st.multiselect(
             "Filter currencies for comparison:", 
             options=unique_batch_coins, 
@@ -106,7 +106,7 @@ with tab1:
         st.divider()
 
         # --- SECTION 3: PRICE VS SENTIMENT CORRELATION (Area Chart) ---
-        st.subheader("🔗 Price vs. Sentiment Correlation")
+        st.subheader("Price vs. Sentiment Correlation")
         coin_to_inspect = st.selectbox("Select currency for correlation study:", unique_batch_coins, key="corr_select")
         inspect_df = df[df['currency'] == coin_to_inspect].sort_values('dt')
         
@@ -158,7 +158,7 @@ with tab1:
         st.plotly_chart(fig_dual, use_container_width=True)
         
         # Historical Statistics Table
-        st.subheader("📝 Momentum & Correlation Statistics")
+        st.subheader("Momentum & Correlation Statistics")
         stats_df = inspect_df[['dt', 'avg_momentum', 'rolling_volatility', 'sentiment_price_corr']].tail(10).copy()
         stats_df.columns = ['Timestamp', 'Avg Momentum (%)', 'Volatility', 'Sentiment/Price Corr']
         st.dataframe(stats_df, use_container_width=True, hide_index=True)
@@ -167,7 +167,14 @@ with tab1:
 
 # --- TAB 2: SPEED LAYER (LIVE DATA) ---
 with tab2:
-    st.header("🚨 Real-time Anomaly Radar")
+    col1, col2 = st.columns([4, 1], vertical_alignment="center")
+
+    with col1:
+        st.header("Real-time Anomaly Radar")
+
+    with col2:
+        if st.button("🔄 Refresh View", use_container_width=True):
+            st.rerun()
     
     live_data_cursor = db["live_alerts"].find().sort("_id", -1).limit(100)
     data_list = list(live_data_cursor)
@@ -187,7 +194,7 @@ with tab2:
         unique_live_coins = sorted(ldf['currency'].unique())
 
         # SECTION 1: TICKERS
-        st.subheader("📌 Current Ticker Status")
+        st.subheader("Current Ticker Status")
         val_cols = st.columns(len(unique_live_coins))
         for i, coin in enumerate(unique_live_coins):
             latest_coin = ldf[ldf['currency'] == coin].iloc[0]
@@ -201,7 +208,7 @@ with tab2:
         st.divider()
 
         # SECTION 2: GAUGE METERS
-        st.subheader("🌡️ Sentiment Heat (Fear & Greed)")
+        st.subheader("Sentiment Heat (Fear & Greed)")
         gauge_cols = st.columns(len(unique_live_coins))
         
         for i, coin in enumerate(unique_live_coins):
@@ -260,7 +267,7 @@ with tab2:
         st.divider()
 
         # SECTION 4: EVENT LOGS
-        st.subheader("📋 Event Logs (Last 15 Minutes)")
+        st.subheader("Event Logs (Last 15 Minutes)")
         unique_live_coins = sorted(ldf['currency'].unique())
         try: btc_idx = unique_live_coins.index('bitcoin')
         except: btc_idx = 0
@@ -274,5 +281,4 @@ with tab2:
             use_container_width=True, hide_index=True
         )
         
-    if st.button("🔄 Refresh View"):
-        st.rerun()
+    

@@ -1,11 +1,10 @@
-from src.scrapers.scraper import CoinMarketCapScraper
+from src.ingestion.scrapers.scraper import CoinMarketCapScraper
 from datetime import datetime
 from selenium.webdriver.common.by import By
 import time
 from pathlib import Path
 from typing import Set
 from selenium.webdriver.remote.webelement import WebElement
-
 
 class CoinMarketCapDataCollector:
 
@@ -18,7 +17,7 @@ class CoinMarketCapDataCollector:
         self.url = url
 
     def _get_timestamp(self):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%s")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         return timestamp
 
     def collect_prices(self):
